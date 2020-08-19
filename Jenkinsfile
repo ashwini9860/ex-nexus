@@ -13,7 +13,7 @@ pipeline {
                         }
                 }
 
-                stage("deplousxsy"){
+                stage("dexsxslousxsy"){
                         steps {
                                 echo 'application deploying..'
                         }
