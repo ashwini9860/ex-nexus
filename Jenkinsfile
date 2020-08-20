@@ -49,8 +49,9 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                sh """
+                
 		releaseVersion = 'latest'
+                sh """
                 echo "Executing stage -- nexus --"
                 echo "Executing stage -- sonarqube --"
                 """
