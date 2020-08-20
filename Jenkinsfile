@@ -60,23 +60,6 @@ pipeline {
             }
         }
 
-        stage('release') {
-            when {
-                branch 'master'
-            }
-            steps {
-                script {
-                        developmentVersion  = readMavenPom().getVersion()
-                        releaseVersion = developmentVersion.replace('-SNAPSHOT', '')
-                        sh """
-                        echo "developmentVersion: ${developmentVersion}"
-                        echo "releaseVersion: ${releaseVersion}"
-                        echo "Executing stage -- release --"
-                }       """
-
-            }
-        }
-
 
     }
 }
