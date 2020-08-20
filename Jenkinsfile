@@ -28,36 +28,55 @@ pipeline {
         }
 
 
-        stage(' Unit Testing') {
+        stage('build') {
             steps {
                 sh """
-                echo "Running Unit Tests"
+                echo "Executing stage -- build --"
                 """
             }
         }
 
-        stage('Code Analysis') {
+        stage('acceptance') {
             steps {
                 sh """
-                echo "Running Code Analysis"
+                echo "Executing stage -- acceptance --"
                 """
             }
         }
 
-        stage('Build Deploy Code') {
+        stage('nexus/sonarqube') {
             when {
                 branch 'develop'
+		releaseVersion = 'latest'
             }
             steps {
                 sh """
-                echo "Building Artifact"
+                echo "Executing stage -- nexus --"
                 """
 
                 sh """
-                echo "Deploying Code"
+                echo "Executing stage -- sonarqube --"
                 """
             }
         }
+
+        stage('release') {
+            when {
+                branch 'master'
+            }
+            steps {
+		script {
+                        developmentVersion  = readMavenPom().getVersion()
+                        releaseVersion = developmentVersion.replace('-SNAPSHOT', '')
+                	sh """
+                        echo "developmentVersion: ${developmentVersion}"
+                	echo "releaseVersion: ${releaseVersion}"
+                	echo "Executing stage -- release --"
+                }   	"""
+
+            }
+        }
+
 
     }   
 }
