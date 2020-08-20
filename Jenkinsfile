@@ -19,15 +19,14 @@ pipeline {
                 """
             }
         }
+    
 
-        stage('Code Checkout') {
+        stage('Checkout SCM') {
             steps {
-                checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: '*/main']], 
-                ])
+            	checkout scm
             }
         }
+
 
         stage(' Unit Testing') {
             steps {
