@@ -5,7 +5,7 @@ pipeline {
     options {
         buildDiscarder logRotator(
                     daysToKeepStr: '16',
-                    numToKeepStr: '10'
+                    numToKeepStr: '7'
             )
     }
 
@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('develop') {
+        stage('develop-release') {
             when {
                 branch 'develop'
             }
@@ -61,7 +61,7 @@ pipeline {
             }
         }
 
-        stage('master') {
+        stage('master-release') {
             when {
                 branch 'master'
             }
@@ -77,17 +77,26 @@ pipeline {
                 }
             }
         }
-
-        stage('docker') {
-	    steps {
-	      script {
-			sh echo "${releaseVersion}"
-		}
-	    }
-	}
+        
+        stage("docker") {
+            steps {
+                script {
+                    if(BRANCH_NAME == 'develop') {
+                        def releaseVersion  = "latest"
+                        echo "${releaseVersion}"
+                    }
+                    else if(BRANCH_NAME == 'master') {
+                        developmentVersion = readMavenPom().getVersion()
+            	        releaseVersion = developmentVersion.replace('-SNAPSHOT', '')
+                        echo "${releaseVersion}"
+                    }
+                }
+           }
+       }
 
 
 
     }
 }
+
 
