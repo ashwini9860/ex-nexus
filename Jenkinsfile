@@ -2,11 +2,13 @@ pipeline {
 	agent any
 	stages {
                 stage('checkout') {
+			steps {
     		echo 'Executing stage -- checkout --'
     		checkout scm
     		final scmVars = checkout(scm)
             BRANCH = scmVars.GIT_BRANCH
             echo "scmVars.GIT_BRANCH: $BRANCH"
+}
     }
 
 		stage("build"){
