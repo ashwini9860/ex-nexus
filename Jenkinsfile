@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('nexus/sonarqube') {
+        stage('develop') {
             when {
                 branch 'develop'
             }
@@ -61,7 +61,7 @@ pipeline {
             }
         }
 
-        stage('nexus/sonarqube') {
+        stage('master') {
             when {
                 branch 'master'
             }
@@ -77,6 +77,14 @@ pipeline {
                 }
             }
         }
+
+        stage('docker') {
+	    steps {
+	      script {
+			sh echo "${releaseVersion}"
+		}
+	    }
+	}
 
 
 
