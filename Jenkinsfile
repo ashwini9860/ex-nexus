@@ -39,7 +39,7 @@ pipeline {
                 echo "Executing stage -- build --"
                 java -version
                 mvn --version
-                mvn clean package -DskipTests -U
+                mvn clean install
                 """
             }
         }
