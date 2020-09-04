@@ -1,6 +1,10 @@
 pipeline {
 
     agent any
+    tools {
+        maven "maven 3.6.3"
+    }
+
 
     options {
         buildDiscarder logRotator(
@@ -33,6 +37,9 @@ pipeline {
             steps {
                 sh """
                 echo "Executing stage -- build --"
+                java -version
+                mvn --version
+                mvn clean package -DskipTests -U
                 """
             }
         }
@@ -41,6 +48,7 @@ pipeline {
             steps {
                 sh """
                 echo "Executing stage -- acceptance --"
+                mvn verify
                 """
             }
         }
